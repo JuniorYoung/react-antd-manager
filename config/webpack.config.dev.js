@@ -149,6 +149,9 @@ module.exports = {
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.
               cacheDirectory: true,
+              plugins: [
+                ['import', [{ libraryName: 'antd', style: true }]]
+              ]
             },
           },
           // "postcss" loader applies autoprefixer to our CSS.
@@ -187,7 +190,13 @@ module.exports = {
                 },
               },
               {
-                loader: require.resolve('less-loader')
+                loader: require.resolve('less-loader'),
+                options: {
+                  // modifyVars: {
+                  //   'primary-color': '#1DA57A'
+                  // },
+                  javascriptEnabled: true
+                }
               }
             ],
           },
