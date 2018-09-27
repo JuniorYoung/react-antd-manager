@@ -9,6 +9,7 @@ import Login from './pages/login'
 import Admin from './pages/admin'
 import Buttons from './pages/ui/buttons'
 import Modals from './pages/ui/modals'
+import Loadings from './pages/ui/loadings'
 import NotMatch from './pages/not-match'
 import App from './App'
 
@@ -24,6 +25,7 @@ export default class AppRouter extends React.Component {
                                 <Route path="/admin/home" component={Home} />
                                 <Route path="/admin/ui/buttons" component={Buttons} />
                                 <Route path="/admin/ui/modals" component={Modals} />
+                                <Route path="/admin/ui/Loadings" component={Loadings} />
                                 <Route component={NotMatch} />
                             </Switch>
                         </Admin>
