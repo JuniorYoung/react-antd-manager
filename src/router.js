@@ -15,6 +15,8 @@ import Messages from './pages/ui/messages'
 import Tabs from './pages/ui/tabs'
 import Carousel from './pages/ui/carousel'
 import Gallery from './pages/ui/gallery'
+import FormLogin from './pages/form/login'
+import FormReg from './pages/form/reg'
 import NotMatch from './pages/not-match'
 import App from './App'
 
@@ -36,6 +38,8 @@ export default class AppRouter extends React.Component {
                                 <Route path="/admin/ui/tabs" component={Tabs} />
                                 <Route path="/admin/ui/gallery" component={Gallery} />
                                 <Route path="/admin/ui/carousel" component={Carousel} />
+                                <Route path="/admin/form/login" component={FormLogin} />
+                                <Route path="/admin/form/reg" component={FormReg} />
                                 <Route component={NotMatch} />
                             </Switch>
                         </Admin>
