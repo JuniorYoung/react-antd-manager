@@ -17,6 +17,8 @@ import Carousel from './pages/ui/carousel'
 import Gallery from './pages/ui/gallery'
 import FormLogin from './pages/form/login'
 import FormReg from './pages/form/reg'
+import BasicTable from './pages/table/basicTable'
+import HighTable from './pages/table/highTable'
 import NotMatch from './pages/not-match'
 import App from './App'
 
@@ -40,6 +42,8 @@ export default class AppRouter extends React.Component {
                                 <Route path="/admin/ui/carousel" component={Carousel} />
                                 <Route path="/admin/form/login" component={FormLogin} />
                                 <Route path="/admin/form/reg" component={FormReg} />
+                                <Route path="/admin/table/basic" component={BasicTable} />
+                                <Route path="/admin/table/high" component={HighTable} />
                                 <Route component={NotMatch} />
                             </Switch>
                         </Admin>
