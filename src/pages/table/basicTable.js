@@ -40,7 +40,7 @@ export default class BasicTable extends React.Component {
             params: this.params,
             isShowLoading: true
         }).then(resp => {
-            const data = resp.data
+            const data = resp.list
             data.map((item, index) => {
                 item.key = index
             })

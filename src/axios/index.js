@@ -31,12 +31,12 @@ export default class Axios {
         return new Promise((resolve, reject) => {
             axios(config).then(resp => {
                 if (resp.status === 200) {
-                    const data = resp.data
-                    if (data.success) {
+                    const res = resp.data
+                    if (res.code === 200) {
                         // 成功
-                        resolve(data.result)
+                        resolve(res.data)
                     } else {
-                        message.error(data.message)
+                        message.error(res.message)
                     }
                 } else {
                     reject()

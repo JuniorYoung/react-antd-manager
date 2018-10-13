@@ -17,7 +17,7 @@ export default class HighTable extends React.Component {
             url: '/table/list',
             isShowLoading: true
         }).then(resp => {
-            const data = resp.data
+            const data = resp.list
             data.map((item, index) => {
                 item.key = index
             })
