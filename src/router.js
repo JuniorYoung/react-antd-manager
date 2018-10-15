@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom'
 import Home from './pages/home'
 import Login from './pages/login'
-import Admin from './pages/admin'
+import Admin from './admin'
 import Buttons from './pages/ui/buttons'
 import Modals from './pages/ui/modals'
 import Loadings from './pages/ui/loadings'
@@ -20,6 +20,9 @@ import FormReg from './pages/form/reg'
 import BasicTable from './pages/table/basicTable'
 import HighTable from './pages/table/highTable'
 import City from './pages/city'
+import Order from './pages/order'
+import Common from './common'
+import OrderDetail from './pages/order/detail'
 import NotMatch from './pages/not-match'
 import App from './App'
 
@@ -46,9 +49,15 @@ export default class AppRouter extends React.Component {
                                 <Route path="/admin/table/basic" component={BasicTable} />
                                 <Route path="/admin/table/high" component={HighTable} />
                                 <Route path="/admin/city" component={City} />
+                                <Route path="/admin/order" component={Order} />
                                 <Route component={NotMatch} />
                             </Switch>
                         </Admin>
+                    )} />
+                    <Route path="/common" render={() => (
+                        <Common>
+                            <Route path="/common/order/detail/:orderId" component={OrderDetail} />
+                        </Common>
                     )} />
                 </App>
             </Router>

@@ -26,7 +26,7 @@ export default class Axios {
         const config = Object.assign({
             method: 'get',
             baseURL: 'https://easy-mock.com/mock/5bb07735f5f4011584b5c62c/react-antd',
-            timeout: 3000
+            timeout: 5000
         }, opts)
         return new Promise((resolve, reject) => {
             axios(config).then(resp => {
