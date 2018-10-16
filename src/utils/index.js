@@ -27,5 +27,18 @@ export default {
                 callback(page)
             }
         }
+    },
+    /**
+     * 表格列表，更新所选中的行
+     * @param {String} type 'radio' / 'checkbox'
+     * @param {Array} selectedRowKeys 所选中行的key
+     * @param {Array || Object} selectedRows  所选中的行
+     */
+    updateSelectedItem(type, selectedRowKeys, selectedRows) {
+        const selected = type === 'radio' ? 'selectedRow' : 'selectedRows'
+        this.setState({
+            selectedRowKeys,
+            [selected]: selectedRows
+        })
     }
 }

@@ -41,9 +41,6 @@ export default class BasicTable extends React.Component {
             isShowLoading: true
         }).then(resp => {
             const data = resp.list
-            data.map((item, index) => {
-                item.key = index
-            })
             this.setState({
                 dataSource1: data,
                 selectedRowCheckKeys: [],
@@ -67,7 +64,6 @@ export default class BasicTable extends React.Component {
     }
 
     onRowClick = (record, index) => {
-        console.log(record)
         this.setState({
             selectedRowKeys: [index],
             selectedItem: record
@@ -75,14 +71,12 @@ export default class BasicTable extends React.Component {
     }
 
     onRowCheckClick = (record, index) => {
-        console.log(record, index)
         this.setState({
             selectedRowCheckKeys: this.getRowCheckKeys(index)
         })
     }
 
     onRowChange = (selectedRowKeys, selectedItem) => {
-        console.log(selectedRowKeys, selectedItem)
         this.setState({
             selectedRowKeys,
             selectedItem
@@ -90,7 +84,6 @@ export default class BasicTable extends React.Component {
     }
 
     onRowCheckChange = (selectedRowKeys, selectedRows) => {
-        console.log(selectedRowKeys, selectedRows)
         this.setState({
             selectedRowCheckKeys: selectedRowKeys
         })
@@ -185,6 +178,7 @@ export default class BasicTable extends React.Component {
                 <Card title="使用Mock数据渲染的表格" className="card-wrap">
                     <Table
                         bordered
+                        rowKey="id"
                         dataSource={this.state.dataSource1}
                         columns={columns1}
                         pagination={false}
@@ -197,6 +191,7 @@ export default class BasicTable extends React.Component {
                         columns={columns1}
                         pagination={false}
                         rowSelection={rowSelection}
+                        rowKey="id"
                         onRow={(record, index) => ({
                             onClick: () => {
                                 this.onRowClick(record, index)
@@ -210,6 +205,7 @@ export default class BasicTable extends React.Component {
                         dataSource={this.state.dataSource1}
                         columns={columns1}
                         pagination={false}
+                        rowKey="id"
                         rowSelection={rowCheckSelection}
                         onRow={(record, index) => ({
                             onClick: () => {
@@ -223,6 +219,7 @@ export default class BasicTable extends React.Component {
                         bordered
                         dataSource={this.state.dataSource1}
                         columns={columns1}
+                        rowKey="id"
                         pagination={this.state.pagination}
                         rowSelection={rowCheckSelection}
                         onRow={(record, index) => ({

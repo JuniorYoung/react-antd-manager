@@ -2,12 +2,12 @@ import React from 'react'
 import {
     Button,
     Form,
-    Table,
     Card,
     Modal,
     message
 } from 'antd'
 import BaseForm from './../../components/BaseForm'
+import BaseTable from './../../components/BaseTable'
 import Axios from './../../axios'
 import Utils from './../../utils'
 
@@ -20,7 +20,7 @@ export default class Order extends React.Component {
         pagination: null,
         visible: false,
         selectedRowKeys: [],
-        selectedItem: null,
+        selectedRow: null,
         orderInfo: {}
     }
 
@@ -55,9 +55,10 @@ export default class Order extends React.Component {
             params: this.params
         }).then(resp => {
             const data = resp.list
+            data.forEach((item, i) => item.key = i)
             this.setState({
                 dataSource: data,
-                selectedItem: null,
+                selectedRow: null,
                 selectedRowKeys: [],
                 pagination: Utils.pagination(resp.page, resp.pageSize, resp.total, (current) => {
                     self.params.page = current
@@ -108,7 +109,7 @@ export default class Order extends React.Component {
     }
 
     checkOrder = () => {
-        const record = this.state.selectedItem
+        const record = this.state.selectedRow
         if (!record) {
             Modal.info({
                 title: '提示',
@@ -124,7 +125,7 @@ export default class Order extends React.Component {
      */
     handleOrderDetail = () => {
         if(this.checkOrder()) {
-            const { id } = this.state.selectedItem
+            const { id } = this.state.selectedRow
             //跳转到订单详情页面
             window.open(`/#/common/order/detail/${id}`, '_blank')
         }
@@ -135,7 +136,7 @@ export default class Order extends React.Component {
      */
     handleEndOrder = () => {
         if(this.checkOrder()) {
-            const { order_sn } = this.state.selectedItem
+            const { order_sn } = this.state.selectedRow
             //根据订单编号查询订单详情
             Axios.ajax({
                 url: '/order/end',
@@ -152,7 +153,7 @@ export default class Order extends React.Component {
     handleEndOrderSubmit = (e) => {
         e.preventDefault()
         //根据订单编号结束订单
-        const { order_sn } = this.state.selectedItem
+        const { order_sn } = this.state.selectedRow
         Axios.ajax({
             method: 'post',
             url: '/order/update',
@@ -164,13 +165,6 @@ export default class Order extends React.Component {
                 orderInfo: {}
             })
             this.requestList()
-        })
-    }
-
-    handleRowClick = (record) => {
-        this.setState({
-            selectedRowKeys: [record.id],
-            selectedItem: record
         })
     }
 
@@ -228,13 +222,6 @@ export default class Order extends React.Component {
                 dataIndex: 'user_pay'
             }
         ]
-        const rowSelection = {
-            type: 'radio',
-            selectedRowKeys: this.state.selectedRowKeys,
-            onChange: (selectedRowKeys, selectedRows) => {
-                this.handleRowClick(selectedRows[0])
-            }
-        }
         const { orderInfo } = this.state
         const formItemLayout = {
             labelCol: {
@@ -254,18 +241,14 @@ export default class Order extends React.Component {
                     <Button onClick={this.handleEndOrder} style={{ marginLeft: 10 }}>结束订单</Button>
                 </Card> 
                 <div className="content-wrap">
-                    <Table
-                        bordered
+                    <BaseTable
+                        columns={columns}
                         dataSource={this.state.dataSource}
                         pagination={this.state.pagination}
-                        columns={columns}
-                        rowSelection={rowSelection}
                         rowKey="id"
-                        onRow={(record, index) => ({
-                            onClick: () => {
-                                this.handleRowClick(record)
-                            }
-                        })}
+                        selectedRowKeys={this.state.selectedRowKeys}
+                        selectionType="radio"
+                        updateSelectedItem={Utils.updateSelectedItem.bind(this, 'radio')}
                     />
                 </div>
                 <Modal
