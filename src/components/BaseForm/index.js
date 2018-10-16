@@ -20,7 +20,7 @@ class FilterForm extends React.Component {
      * 获取Select的Option列表
      */
     getOptions = (optionList = []) => {
-        return optionList.map(option => (<Option value={option.value}>
+        return optionList.map(option => (<Option key={option.value} value={option.value}>
             {option.text}
         </Option>))   
     }
@@ -33,7 +33,7 @@ class FilterForm extends React.Component {
                 const { type, label, fieldName, initialValue = '', placeholder, width } = formItem
                 switch(type) {
                     case 'INPUT':
-                        return (<FormItem label={label}>
+                        return (<FormItem label={label} key={fieldName}>
                             {getFieldDecorator(fieldName, {
                                 initialValue
                             })(
@@ -42,7 +42,7 @@ class FilterForm extends React.Component {
                         </FormItem>)
                     case 'SELECT':
                         const { optionList } = formItem
-                        return (<FormItem label={label}>
+                        return (<FormItem label={label} key={fieldName}>
                             {getFieldDecorator(fieldName, {
                                 initialValue
                             })(
@@ -52,7 +52,7 @@ class FilterForm extends React.Component {
                             )}
                         </FormItem>)
                     case 'RANGEPICKER':
-                        return (<FormItem label={label}>
+                        return (<FormItem label={label} key={fieldName}>
                             {getFieldDecorator(fieldName, {
                                 initialValue
                             })(
