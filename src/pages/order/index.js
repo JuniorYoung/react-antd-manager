@@ -4,77 +4,14 @@ import {
     Form,
     Table,
     Card,
-    Select,
     Modal,
-    DatePicker,
     message
 } from 'antd'
+import BaseForm from './../../components/BaseForm'
 import Axios from './../../axios'
 import Utils from './../../utils'
 
 const FormItem = Form.Item
-const Option = Select.Option
-const { RangePicker } = DatePicker
-
-class FilterForm extends React.Component {
-    /**
-     * 重置查询条件
-     */
-    handleReset = () => {
-        this.props.form.resetFields()
-    }
-
-    orderStatus = {
-        '1': '进行中',
-        '2': '进行中（临时锁车）',
-        '3': '行程结束',
-    }
-
-    render() {
-        const { getFieldDecorator } = this.props.form
-        return (
-            <Form layout="inline" onSubmit={this.props.handleSearch}>
-                <FormItem label="城市">
-                    {getFieldDecorator('city_id', {
-                        initialValue: ''
-                    })(
-                        <Select placeholder="全部" style={{ width: 100 }}>
-                            <Option value="">全部</Option>
-                            <Option value="1">北京市</Option>
-                            <Option value="2">天津市</Option>
-                            <Option value="3">深圳市</Option>
-                            <Option value="4">杭州市</Option>
-                        </Select>  
-                    )}
-                </FormItem>
-                <FormItem>
-                    {getFieldDecorator('start_end_time')(
-                        <RangePicker
-                            showTime
-                            format="YYYY-MM-DD HH:mm"
-                            placeholder={['开始时间', '结束时间']}
-                        />
-                    )}
-                </FormItem>
-                <FormItem label="订单状态">
-                    {getFieldDecorator('order_status', {
-                        initialValue: ''
-                    })(
-                        <Select placeholder="全部" style={{ width: 140 }}>
-                            <Option value="">全部</Option>
-                            {Object.keys(this.orderStatus).map(key => <Option key={key} value={key}>{this.orderStatus[key]}</Option>)}
-                        </Select>
-                    )}
-                </FormItem>
-                <FormItem>
-                    <Button type="primary" onClick={this.props.handleSearch}>查询</Button>
-                    <Button onClick={this.handleReset}>重置</Button>
-                </FormItem>
-            </Form>
-        )
-    }
-}
-FilterForm = Form.create()(FilterForm)
 
 export default class Order extends React.Component {
 
@@ -91,27 +28,23 @@ export default class Order extends React.Component {
         page: 1
     }
 
-    filterForm = null
+    orderStatusMap = new Map()
+
+    filterFormList = []
 
     /**
-     * 多条件查询
+     * 条件查询
      */
-    handleSearch = (e) => {
-        e.preventDefault()
-        const f = this.filterForm.props.form
-        f.validateFields((err, fieldsValue) => {
-            if (err) return
-            const timeObj = fieldsValue['start_end_time']
-            const flag = timeObj && timeObj.length > 0
-            if (flag) fieldsValue['start_end_time'] = null
-            
-            Object.assign(this.params, {
-                ...fieldsValue,
-                start_time: flag ? timeObj[0].format('YYYY-MM-DD HH:mm') : '',
-                end_time: flag ? timeObj[1].format('YYYY-MM-DD HH:mm') : '',
-            })
-            this.requestList() 
+    handleFilterSearch = (fieldsValue) => {
+        const timeObj = fieldsValue['start_end_time']
+        const flag = timeObj && timeObj.length > 0
+        if (flag) fieldsValue['start_end_time'] = null
+        Object.assign(this.params, {
+            ...fieldsValue,
+            start_time: flag ? timeObj[0].format('YYYY-MM-DD HH:mm') : '',
+            end_time: flag ? timeObj[1].format('YYYY-MM-DD HH:mm') : ''
         })
+        this.requestList() 
     }
 
     requestList = () => {
@@ -136,6 +69,42 @@ export default class Order extends React.Component {
 
     componentDidMount() {
         this.requestList()
+        const orderStatus = [
+            { value: 1, text: '进行中' },
+            { value: 2, text: '进行中（临时锁车）' },
+            { value: 3, text: '行程结束' }
+        ]
+        orderStatus.forEach(os => {
+            this.orderStatusMap.set(os.value, os)
+        })
+        this.filterFormList = [{
+            type: 'SELECT',
+            label: '城市',
+            fieldName: 'city_id',
+            width: 100,
+            placeholder: '全部',
+            initialValue: '',
+            optionList: [
+                { value: '', text: '全部' },
+                { value: '1', text: '北京市' },
+                { value: '2', text: '天津市' },
+                { value: '3', text: '深圳市' }
+            ]
+        }, {
+            type: 'RANGEPICKER',
+            label: '订单时间',
+            initialValue: [],
+            fieldName: 'start_end_time',
+            placeholder: ['开始时间', '结束时间'],
+        }, {
+            type: 'SELECT',
+            label: '订单状态',
+            fieldName: 'order_status',
+            width: 140,
+            placeholder: '全部',
+            initialValue: '',
+            optionList: [{ value: '', text: '全部' }, ...this.orderStatusMap.values()]
+        }]
     }
 
     checkOrder = () => {
@@ -239,7 +208,7 @@ export default class Order extends React.Component {
                 title: '状态',
                 dataIndex: 'status',
                 render(status) {
-                    return self.filterForm.orderStatus[status]
+                    return self.orderStatusMap.get(status).text
                 }
             },
             {
@@ -278,7 +247,7 @@ export default class Order extends React.Component {
         return (
             <div>
                 <Card className="card-wrap">
-                    <FilterForm handleSearch={this.handleSearch} wrappedComponentRef={form => this.filterForm = form} />
+                    <BaseForm handleFilterSearch={this.handleFilterSearch} formList={this.filterFormList} />
                 </Card>
                 <Card>
                     <Button type="primary" onClick={this.handleOrderDetail}>订单详情</Button>

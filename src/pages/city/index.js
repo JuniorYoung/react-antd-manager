@@ -9,79 +9,13 @@ import {
     Radio,
     message
 } from 'antd'
+import BaseForm from './../../components/BaseForm'
 import Axios from './../../axios'
 import Utils from './../../utils'
 
 const FormItem = Form.Item
 const Option = Select.Option
 const RadioGroup = Radio.Group
-
-class FilterForm extends React.Component {
-    /**
-     * 重置查询条件
-     */
-    handleReset = () => {
-        this.props.form.resetFields()
-    }
-
-    render() {
-        const { getFieldDecorator } = this.props.form
-        return (
-            <Form layout="inline" onSubmit={this.props.handleSearch}>
-                <FormItem label="城市">
-                    {getFieldDecorator('city_id', {
-                        initialValue: ''
-                    })(
-                        <Select placeholder="全部" style={{ width: 100 }}>
-                            <Option value="">全部</Option>
-                            <Option value="1">北京市</Option>
-                            <Option value="2">天津市</Option>
-                            <Option value="3">深圳市</Option>
-                        </Select>  
-                    )}
-                </FormItem>
-                <FormItem label="用车模式">
-                    {getFieldDecorator('mode', {
-                        initialValue: ''
-                    })(
-                        <Select placeholder="全部" style={{ width: 130 }}>
-                            <Option value="">全部</Option>
-                            <Option value="1">指定停车点模式</Option>
-                            <Option value="2">禁停区模式</Option>
-                        </Select>
-                    )}
-                </FormItem>
-                <FormItem label="营运模式">
-                    {getFieldDecorator('op_mode', {
-                        initialValue: ''
-                    })(
-                        <Select placeholder="全部" style={{ width: 100 }}>
-                            <Option value="">全部</Option>
-                            <Option value="1">自营</Option>
-                            <Option value="2">加盟</Option>
-                        </Select>
-                    )}
-                </FormItem>
-                <FormItem label="加盟商授权状态">
-                    {getFieldDecorator('auth_status', {
-                        initialValue: ''
-                    })(
-                        <Select placeholder="全部" style={{ width: 100 }}>
-                            <Option value="">全部</Option>
-                            <Option value="1">已授权</Option>
-                            <Option value="2">未授权</Option>
-                        </Select>
-                    )}
-                </FormItem>
-                <FormItem>
-                    <Button htmlType="submit" type="primary" onClick={this.props.handleSearch}>查询</Button>
-                    <Button htmlType="reset" onClick={this.handleReset}>重置</Button>
-                </FormItem>
-            </Form>
-        )
-    }
-}
-FilterForm = Form.create()(FilterForm)
 
 class OpenCityForm extends React.Component {
     render() {
@@ -149,13 +83,71 @@ export default class City extends React.Component {
         page: 1
     }
 
-    filterForm = null
     openCityForm = null
+
+    filterFormList = [{
+        type: 'SELECT',
+        label: '城市',
+        fieldName: 'city_id',
+        width: 100,
+        placeholder: '全部',
+        initialValue: '',
+        optionList: [
+            { value: '', text: '全部' },
+            { value: '1', text: '北京市' },
+            { value: '2', text: '天津市' },
+            { value: '3', text: '深圳市' }
+        ]
+    }, {
+        type: 'SELECT',
+        label: '用车模式',
+        fieldName: 'mode',
+        width: 130,
+        placeholder: '全部',
+        initialValue: '',
+        optionList: [
+            { value: '', text: '全部' },
+            { value: '1', text: '指定停车点模式' },
+            { value: '2', text: '禁停区模式' }
+        ]
+    }, {
+        type: 'SELECT',
+        label: '营运模式',
+        fieldName: 'op_mode',
+        width: 100,
+        placeholder: '全部',
+        initialValue: '',
+        optionList: [
+            { value: '', text: '全部' },
+            { value: '1', text: '自营' },
+            { value: '2', text: '加盟' }
+        ]
+    }, {
+        type: 'SELECT',
+        label: '加盟商授权状态',
+        fieldName: 'auth_status',
+        width: 100,
+        placeholder: '全部',
+        initialValue: '',
+        optionList: [
+            { value: '', text: '全部' },
+            { value: '1', text: '已授权' },
+            { value: '2', text: '未授权' }
+        ]
+    }]
 
     handleOpenCity = () => {
         this.setState({
             visible: true
         })
+    }
+
+    /**
+     * 条件查询
+     */
+    handleFilterSearch = (fieldsValue) => {
+        this.params = Object.assign({}, this.params, fieldsValue)
+        this.requestList()
     }
 
     /**
@@ -179,16 +171,6 @@ export default class City extends React.Component {
                 })
             }
         })
-    }
-
-    /**
-     * 多条件查询
-     */
-    handleSearch = (e) => {
-        e.preventDefault()
-        const formVals = this.filterForm.props.form.getFieldsValue()
-        this.params = Object.assign({}, this.params, formVals)
-        this.requestList()
     }
 
     requestList = () => {
@@ -254,7 +236,7 @@ export default class City extends React.Component {
         return (
             <div>
                 <Card className="card-wrap">
-                    <FilterForm handleSearch={this.handleSearch} wrappedComponentRef={form => this.filterForm = form} />
+                    <BaseForm handleFilterSearch={this.handleFilterSearch} formList={this.filterFormList} />
                 </Card>
                 <Card>
                     <Button type="primary" onClick={this.handleOpenCity}>开通城市</Button>
