@@ -2,7 +2,7 @@ import React from 'react'
 import { Table } from 'antd'
 import './index.less'
 
-export default class ETable extends React.Component {
+export default class BaseTable extends React.Component {
 
     handleRowSelectionChange = (selectedRowKeys, selectedRows) => {
         const item = this.props.selectionType === 'radio' ? selectedRows[0] : selectedRows

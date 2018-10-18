@@ -30,17 +30,18 @@ export default class Axios {
         }, opts)
         return new Promise((resolve, reject) => {
             axios(config).then(resp => {
+                const res = resp.data
                 if (resp.status === 200) {
-                    const res = resp.data
                     if (res.code === 200) {
-                        // 成功
                         resolve(res.data)
                     } else {
-                        message.error(res.message)
+                        message.error(res.message, 2.5, reject)
                     }
                 } else {
                     reject()
                 }
+                if (loadingEle) loadingEle.style.display = 'none'
+            }).catch(err => {
                 if (loadingEle) loadingEle.style.display = 'none'
             })
         })

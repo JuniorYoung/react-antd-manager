@@ -10,6 +10,7 @@ import {
     message
 } from 'antd'
 import BaseForm from './../../components/BaseForm'
+import BaseTable from './../../components/BaseTable'
 import Axios from './../../axios'
 import Utils from './../../utils'
 
