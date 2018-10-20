@@ -25,6 +25,9 @@ import Common from './common'
 import OrderDetail from './pages/order/detail'
 import User from './pages/user'
 import BikeMap from './pages/bikemap'
+import Bar from './pages/echarts/bar'
+import Pie from './pages/echarts/pie'
+import Line from './pages/echarts/line'
 import NotMatch from './pages/not-match'
 import App from './App'
 
@@ -54,6 +57,9 @@ export default class AppRouter extends React.Component {
                                 <Route path="/admin/order" component={Order} />
                                 <Route path="/admin/user" component={User} />
                                 <Route path="/admin/bikeMap" component={BikeMap} />
+                                <Route path="/admin/charts/bar" component={Bar} />
+                                <Route path="/admin/charts/pie" component={Pie} />
+                                <Route path="/admin/charts/line" component={Line} />
                                 <Route component={NotMatch} />
                             </Switch>
                         </Admin>
