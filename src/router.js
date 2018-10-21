@@ -28,6 +28,7 @@ import BikeMap from './pages/bikemap'
 import Bar from './pages/echarts/bar'
 import Pie from './pages/echarts/pie'
 import Line from './pages/echarts/line'
+import Richtext from './pages/richtext'
 import NotMatch from './pages/not-match'
 import App from './App'
 
@@ -60,6 +61,7 @@ export default class AppRouter extends React.Component {
                                 <Route path="/admin/charts/bar" component={Bar} />
                                 <Route path="/admin/charts/pie" component={Pie} />
                                 <Route path="/admin/charts/line" component={Line} />
+                                <Route path="/admin/richtext" component={Richtext} />
                                 <Route component={NotMatch} />
                             </Switch>
                         </Admin>
