@@ -151,6 +151,9 @@ module.exports = {
             options: {
               
               compact: true,
+              plugins: [
+                ['import', [{ libraryName: 'antd', style: true }]]
+              ]
             },
           },
           {
@@ -194,7 +197,10 @@ module.exports = {
                       },
                     },
                     {
-                      loader: require.resolve('less-loader')
+                      loader: require.resolve('less-loader'),
+                      options: {
+                        javascriptEnabled: true
+                      }
                     }
                   ],
                 },
