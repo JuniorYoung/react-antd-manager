@@ -2,13 +2,17 @@ import React from 'react'
 import { Menu } from 'antd'
 import menuList from '../../config/menuList'
 import { NavLink } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { switchMenu } from './../../redux/action'
+
 import './index.less'
 
 const SubMenu = Menu.SubMenu
 
-export default class NavLeft extends React.Component {
+class NavLeft extends React.Component {
     state = {
-        menuTreeNode: null
+        menuTreeNode: null,
+        selectedKeys: ''
     }
 
     componentWillMount() {
@@ -17,6 +21,16 @@ export default class NavLeft extends React.Component {
         this.setState({
             menuTreeNode: menuTreeNode
         });
+    }
+
+    handleLinkUpdate = (key, title) => {
+        if (key === this.state.selectedKeys) {
+            return false
+        }
+        this.props.dispatch(switchMenu(title))
+        this.setState({
+            selectedKeys: key
+        })
     }
 
     /**
@@ -33,7 +47,7 @@ export default class NavLeft extends React.Component {
                 )
             }
             return (
-                <Menu.Item  key={item.key}>
+                <Menu.Item title={item.title} key={item.key}>
                     <NavLink to={item.key}>{item.title}</NavLink>
                 </Menu.Item>
             )
@@ -41,16 +55,29 @@ export default class NavLeft extends React.Component {
     }
 
     render() {
+        const _k = this.state.selectedKeys || window.location.hash.replace(/#|(\?.*)/g, '')
         return (
             <div>
-                <div className="logo">
-                    <img src="/assets/logo-ant.svg" alt=""/>
-                    <h1>Imooc MS</h1>
-                </div>
-                <Menu theme="dark">
+                <NavLink to="/home" onClick={() => {
+                    this.handleLinkUpdate('/home', '首页')
+                }}>
+                    <div className="logo">
+                        <img src="/assets/logo-ant.svg" alt=""/>
+                        <h1>Imooc MS</h1>
+                    </div>
+                </NavLink>
+                <Menu
+                    selectedKeys={[_k]}
+                    theme="dark"
+                    onClick={({ item, key }) => {
+                        this.handleLinkUpdate(key, item.props.title)
+                    }}
+                >
                     { this.state.menuTreeNode }
                 </Menu>
             </div>
         )
     }
 }
+
+export default connect()(NavLeft)
