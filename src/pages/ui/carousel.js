@@ -15,13 +15,13 @@ export default class MyCarousel extends React.Component {
                 <Card title="图片背景" className="slider-wrap">
                     <Carousel autoplay>
                         <div>
-                            <img src="/carousel-img/carousel-1.jpg" />
+                            <img src="./carousel-img/carousel-1.jpg" />
                         </div>
                         <div>
-                            <img src="/carousel-img/carousel-2.jpg" />
+                            <img src="./carousel-img/carousel-2.jpg" />
                         </div>
                         <div>
-                            <img src="/carousel-img/carousel-3.jpg" />
+                            <img src="./carousel-img/carousel-3.jpg" />
                         </div>
                     </Carousel>
                 </Card>

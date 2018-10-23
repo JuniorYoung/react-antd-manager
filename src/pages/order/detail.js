@@ -64,7 +64,7 @@ export default class OrderDetail extends React.Component {
             //设置开始与结束的位置
             const startLoca = positionList[0]
             const startPoint = new BMap.Point(startLoca.lon, startLoca.lat)
-            const startIcon = new BMap.Icon('/assets/start_point.png', new BMap.Size(36, 42), {
+            const startIcon = new BMap.Icon('./assets/start_point.png', new BMap.Size(36, 42), {
                 imageSize:new window.BMap.Size(36,42)
             })
             this.map.addOverlay(new BMap.Marker(startPoint, {
@@ -72,7 +72,7 @@ export default class OrderDetail extends React.Component {
             }))
 
             const endLoca = positionList[positionList.length - 1]
-            const endIcon = new BMap.Icon('/assets/end_point.png', new BMap.Size(36, 42), {
+            const endIcon = new BMap.Icon('./assets/end_point.png', new BMap.Size(36, 42), {
                 imageSize:new window.BMap.Size(36,42)
             })            
             const endPoint = new BMap.Point(endLoca.lon, endLoca.lat)

@@ -127,7 +127,7 @@ export default class Order extends React.Component {
         if(this.checkOrder()) {
             const { id } = this.state.selectedRow
             //跳转到订单详情页面
-            window.open(`/#/common/order/detail/${id}`, '_blank')
+            window.open(`./#/common/order/detail/${id}`, '_blank')
         }
     }
 

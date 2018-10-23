@@ -24,7 +24,7 @@ class Header extends React.Component {
 
     getWeatherAPIData = () => {
         const city = '济南'
-        const url = `http://api.map.baidu.com/telematics/v3/weather?location=${encodeURIComponent(city)}&output=json&ak=7a1c2d0fc57b20fd7e1b2848281967f5`
+        const url = `https://api.map.baidu.com/telematics/v3/weather?location=${encodeURIComponent(city)}&output=json&ak=7a1c2d0fc57b20fd7e1b2848281967f5`
         Axios.jsonp(url).then( resp => { 
             const { dayPictureUrl, weather } = resp.results[0].weather_data[0];
             this.setState({
@@ -43,7 +43,7 @@ class Header extends React.Component {
                     {
                         menuType ? 
                         <Col span="6" className="logo">
-                            <img src="/assets/logo-ant.svg" alt="" />
+                            <img src="./assets/logo-ant.svg" alt="" />
                             <span>订单详情</span>
                         </Col> : ''}
                     <Col span={menuType ? '18' : '24'} className="userinfo">

@@ -99,7 +99,7 @@ export default class BikeMap extends React.Component {
             bike_list.forEach(bike => {
                 const point = bike.split(',')
                 const marker = new BMap.Marker(new BMap.Point(point[0], point[1]), {
-                    icon: new BMap.Icon('/assets/bike.jpg', iconSize, {
+                    icon: new BMap.Icon('./assets/bike.jpg', iconSize, {
                         imageSize: iconSize
                     })
                 })

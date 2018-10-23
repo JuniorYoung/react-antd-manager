@@ -62,7 +62,7 @@ class NavLeft extends React.Component {
                     this.handleLinkUpdate('/home', '首页')
                 }}>
                     <div className="logo">
-                        <img src="/assets/logo-ant.svg" alt=""/>
+                        <img src="./assets/logo-ant.svg" alt=""/>
                         <h1>Imooc MS</h1>
                     </div>
                 </NavLink>

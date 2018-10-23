@@ -26,7 +26,7 @@ export default class Gallery extends React.Component {
         const imgNodes = imgs.map(colImgs => colImgs.map(img => (
             <Card
                 style={{marginBottom: 10}}
-                cover={<img src={`/gallery/${img}`} alt={img} />}
+                cover={<img src={`./gallery/${img}`} alt={img} />}
                 onClick={() => this.handleClick(img)}
             >
                 <Card.Meta
