@@ -1,6 +1,7 @@
 {
   "name": "react-antd-manager",
   "version": "0.1.0",
+  "homepage": ".",
   "private": true,
   "dependencies": {
     "antd": "^3.9.2",
